@@ -12,13 +12,14 @@ public interface ProductService {
 
     Integer create(ProductCreateInDTO productCreateInDTO);
 
-    ProductShowOutDTO getById(Integer productId);
-
-    Page<ProductListOutDTO> search(Integer pageNum);
-
     void update(ProductUpdateInDTO productUpdateInDTO);
 
     void delete(Integer productId);
 
-    void deletes(List<Integer> productId);
+    void batchDelete(List<Integer> productIds);
+
+    Page<ProductListOutDTO> search(Integer pageNum);
+
+    ProductShowOutDTO getById(Integer productId);
+
 }

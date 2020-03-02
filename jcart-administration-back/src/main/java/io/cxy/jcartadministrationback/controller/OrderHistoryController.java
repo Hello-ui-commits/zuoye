@@ -4,24 +4,20 @@ import io.cxy.jcartadministrationback.dto.in.OrderHistoryCreateInDTO;
 import io.cxy.jcartadministrationback.dto.out.OrderHistoryListOutDTO;
 import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
+
 @RestController
-@RequestMapping("/orderHistory")
+@RequestMapping("/orderhistory")
 public class OrderHistoryController {
-    @GetMapping("/list")
-    public OrderHistoryListOutDTO list(){
+
+    @GetMapping("/getListByOrderId")
+    public List<OrderHistoryListOutDTO> getListByOrderId(@RequestParam Long orderId){
         return null;
     }
 
     @PostMapping("/create")
-    public void create(@RequestBody OrderHistoryCreateInDTO orderHistoryCreateInDTO){
-
+    public Integer create(@RequestBody OrderHistoryCreateInDTO orderHistoryCreateInDTO){
+        return null;
     }
-    @PostMapping("/delete")
-    public void delete(@RequestParam Integer orderHistoryId){
 
-    }
-    @PostMapping("/deletes")
-    public void deletes(@RequestParam Integer[] orderHistoryIds){
-
-    }
 }

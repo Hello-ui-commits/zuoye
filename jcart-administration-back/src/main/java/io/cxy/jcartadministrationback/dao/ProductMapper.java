@@ -1,6 +1,5 @@
 package io.cxy.jcartadministrationback.dao;
 
-/*import com.github.pagehelper.Page;*/
 import com.github.pagehelper.Page;
 import io.cxy.jcartadministrationback.dto.out.ProductListOutDTO;
 import io.cxy.jcartadministrationback.po.Product;
@@ -28,7 +27,5 @@ public interface ProductMapper {
     int batchDelete(@Param("productIds") List<Integer> productIds);
 
     Page<ProductListOutDTO> search();
-
-    /*    Page<ProductListOutDTO> search();*/
 
 }

@@ -13,19 +13,24 @@ import io.cxy.jcartadministrationback.po.Product;
 import io.cxy.jcartadministrationback.po.ProductDetail;
 import io.cxy.jcartadministrationback.service.ProductService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
+@Service
 public class ProductServiceImpl implements ProductService {
+
     @Autowired
     private ProductMapper productMapper;
+
     @Autowired
     private ProductDetailMapper productDetailMapper;
 
     @Override
     @Transactional
     public Integer create(ProductCreateInDTO productCreateInDTO) {
+
         Product product = new Product();
         product.setProductCode(productCreateInDTO.getProductCode());
         product.setProductName(productCreateInDTO.getProductName());
@@ -36,19 +41,66 @@ public class ProductServiceImpl implements ProductService {
         product.setMainPicUrl(productCreateInDTO.getMainPicUrl());
         product.setRewordPoints(productCreateInDTO.getRewordPoints());
         product.setSortOrder(productCreateInDTO.getSortOrder());
-        String description = productCreateInDTO.getDescription();
-
-        product.setProductAbstract(description.substring(0, Math.min(100, description.length())));
+        product.setProductAbstract(productCreateInDTO.getProductAbstract());
         productMapper.insertSelective(product);
 
-        Integer productId=product.getProductId();
-        ProductDetail productDetail=new ProductDetail();
+        Integer productId = product.getProductId();
+        ProductDetail productDetail = new ProductDetail();
         productDetail.setProductId(productId);
         productDetail.setDescription(productCreateInDTO.getDescription());
         List<String> otherPicUrls = productCreateInDTO.getOtherPicUrls();
         productDetail.setOtherPicUrls(JSON.toJSONString(otherPicUrls));
         productDetailMapper.insertSelective(productDetail);
-        return 4;
+
+
+        return productId;
+    }
+
+    @Override
+    @Transactional
+    public void update(ProductUpdateInDTO productUpdateInDTO) {
+
+        Product product = new Product();
+        product.setProductId(productUpdateInDTO.getProductId());
+        product.setProductName(productUpdateInDTO.getProductName());
+        product.setPrice(productUpdateInDTO.getPrice());
+        product.setDiscount(productUpdateInDTO.getDiscount());
+        product.setStockQuantity(productUpdateInDTO.getStockQuantity());
+        product.setMainPicUrl(productUpdateInDTO.getMainPicUrl());
+        product.setStatus(productUpdateInDTO.getStatus());
+        product.setRewordPoints(productUpdateInDTO.getRewordPoints());
+        product.setSortOrder(productUpdateInDTO.getSortOrder());
+        product.setProductAbstract(productUpdateInDTO.getProductAbstract());
+        productMapper.updateByPrimaryKeySelective(product);
+
+        ProductDetail productDetail = new ProductDetail();
+        productDetail.setProductId(productUpdateInDTO.getProductId());
+        productDetail.setDescription(productUpdateInDTO.getDescription());
+        List<String> otherPicUrls = productUpdateInDTO.getOtherPicUrls();
+        productDetail.setOtherPicUrls(JSON.toJSONString(otherPicUrls));
+        productDetailMapper.updateByPrimaryKeySelective(productDetail);
+
+    }
+
+    @Override
+    @Transactional
+    public void delete(Integer productId) {
+        productMapper.deleteByPrimaryKey(productId);
+        productDetailMapper.deleteByPrimaryKey(productId);
+    }
+
+    @Override
+    @Transactional
+    public void batchDelete(List<Integer> productIds) {
+        productMapper.batchDelete(productIds);
+        productDetailMapper.batchDelete(productIds);
+    }
+
+    @Override
+    public Page<ProductListOutDTO> search(Integer pageNum) {
+        PageHelper.startPage(pageNum, 10);
+        Page<ProductListOutDTO> page = productMapper.search();
+        return page;
     }
 
     @Override
@@ -67,57 +119,13 @@ public class ProductServiceImpl implements ProductService {
         productShowOutDTO.setRewordPoints(product.getRewordPoints());
         productShowOutDTO.setSortOrder(product.getSortOrder());
         productShowOutDTO.setStockQuantity(product.getStockQuantity());
+        productShowOutDTO.setProductAbstract(product.getProductAbstract());
 
         productShowOutDTO.setDescription(productDetail.getDescription());
         String otherPicUrlsJson = productDetail.getOtherPicUrls();
         List<String> otherPicUrls = JSON.parseArray(otherPicUrlsJson, String.class);
         productShowOutDTO.setOtherPicUrls(otherPicUrls);
+
         return productShowOutDTO;
-    }
-
-    @Override
-    public Page<ProductListOutDTO> search(Integer pageNum) {
-        PageHelper.startPage(pageNum);
-        Page<ProductListOutDTO> page=productMapper.search();
-        return page;
-    }
-
-    @Override
-    @Transactional
-    public void update(ProductUpdateInDTO productUpdateInDTO) {
-        Product product = new Product();
-        product.setProductId(productUpdateInDTO.getProductId());
-        product.setProductName(productUpdateInDTO.getProductName());
-        product.setPrice(productUpdateInDTO.getPrice());
-        product.setDiscount(productUpdateInDTO.getDiscount());
-        product.setStockQuantity(productUpdateInDTO.getStockQuantity());
-        product.setMainPicUrl(productUpdateInDTO.getMainPicUrl());
-        product.setStatus(productUpdateInDTO.getStatus());
-        product.setRewordPoints(productUpdateInDTO.getRewordPoints());
-        product.setSortOrder(productUpdateInDTO.getSortOrder());
-        String description = productUpdateInDTO.getDescription();
-        String productAbstract = description.substring(0, Math.min(100, description.length()));
-        product.setProductAbstract(productAbstract);
-        productMapper.updateByPrimaryKeySelective(product);
-
-        ProductDetail productDetail = new ProductDetail();
-        productDetail.setProductId(productUpdateInDTO.getProductId());
-        productDetail.setDescription(productUpdateInDTO.getDescription());
-        List<String> otherPicUrls = productUpdateInDTO.getOtherPicUrls();
-        productDetail.setOtherPicUrls(JSON.toJSONString(otherPicUrls));
-        productDetailMapper.updateByPrimaryKeySelective(productDetail);
-    }
-
-    @Override
-    @Transactional
-    public void delete(Integer productId) {
-        productMapper.deleteByPrimaryKey(productId);
-        productDetailMapper.deleteByPrimaryKey(productId);
-    }
-
-    @Override
-    public void deletes(List<Integer> productId) {
-        productMapper.batchDelete(productId);
-        productDetailMapper.batchDelete(productId);
     }
 }

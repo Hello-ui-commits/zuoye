@@ -5,7 +5,7 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-@MapperScan("io.cjf.jcartadministrationback.dao")
+@MapperScan("io.cxy.jcartadministrationback.dao")
 public class JcartAdministrationBackApplication {
 
     public static void main(String[] args) {

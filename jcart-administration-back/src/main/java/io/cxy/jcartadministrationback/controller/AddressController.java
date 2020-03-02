@@ -1,16 +1,20 @@
 package io.cxy.jcartadministrationback.controller;
 
 import io.cxy.jcartadministrationback.dto.out.AddressListOutDTO;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 @RestController
 @RequestMapping("/address")
 public class AddressController {
-    @PostMapping("/create")
-    public void address(@RequestBody AddressListOutDTO addressCreateCreateInDTO){
 
+    @GetMapping("/getListByCustomerId")
+    public List<AddressListOutDTO> getListByCustomerId(@RequestParam Integer customerId){
+        return null;
     }
+
 }

@@ -1,54 +1,170 @@
 package io.cxy.jcartadministrationback.controller;
 
-import io.cxy.jcartadministrationback.dto.in.AdministratorCreateInDTO;
-import io.cxy.jcartadministrationback.dto.in.AdministratorLoginInDTO;
-import io.cxy.jcartadministrationback.dto.in.AdministratorResetPwdInDTO;
-import io.cxy.jcartadministrationback.dto.in.AdministratorUpdateInDTO;
-import io.cxy.jcartadministrationback.dto.out.AdministratorGetProfileOutDTO;
-import io.cxy.jcartadministrationback.dto.out.AdministratorShowOutDTO;
+import at.favre.lib.crypto.bcrypt.BCrypt;
+import com.github.pagehelper.Page;
+import io.cxy.jcartadministrationback.constant.ClientExceptionConstant;
+import io.cxy.jcartadministrationback.dto.in.*;
+import io.cxy.jcartadministrationback.dto.out.*;
+import io.cxy.jcartadministrationback.enumeration.AdministratorStatus;
+import io.cxy.jcartadministrationback.exception.ClientException;
+import io.cxy.jcartadministrationback.po.Administrator;
+import io.cxy.jcartadministrationback.service.AdministratorService;
+import io.cxy.jcartadministrationback.util.JWTUtil;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import java.util.Date;
+import java.util.List;
+import java.util.stream.Collectors;
 
 @RestController
 @RequestMapping("/administrator")
+@CrossOrigin
 public class AdministratorController {
-    //管理员登录页
+
+    @Autowired
+    private AdministratorService administratorService;
+
+    @Autowired
+    private JWTUtil jwtUtil;
+
     @GetMapping("/login")
-    public String login(@RequestBody AdministratorLoginInDTO administratorLoginInDTO){
-        return null;
+    public AdministratorLoginOutDTO login(AdministratorLoginInDTO administratorLoginInDTO) throws ClientException {
+        Administrator administrator = administratorService.getByUsername(administratorLoginInDTO.getUsername());
+        if (administrator == null){
+            throw new ClientException(ClientExceptionConstant.ADMINISTRATOR_USERNAME_NOT_EXIST_ERRCODE, ClientExceptionConstant.ADMINISTRATOR_USERNAME_NOT_EXIST_ERRMSG);
+        }
+        String encPwdDB = administrator.getEncryptedPassword();
+        BCrypt.Result result = BCrypt.verifyer().verify(administratorLoginInDTO.getPassword().toCharArray(), encPwdDB);
+
+        if (result.verified) {
+            AdministratorLoginOutDTO administratorLoginOutDTO = jwtUtil.issueToken(administrator);
+            return administratorLoginOutDTO;
+        }else {
+            throw new ClientException(ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRCODE, ClientExceptionConstant.ADNINISTRATOR_PASSWORD_INVALID_ERRMSG);
+        }
     }
-    //管理员个人页
-    @PostMapping("/getProfile")
-    public AdministratorGetProfileOutDTO getProfile(@RequestParam(required = false)Integer administratorId){
-        return  null;
+
+    @GetMapping("/getProfile")
+    public AdministratorGetProfileOutDTO getProfile(@RequestAttribute Integer administratorId){
+        Administrator administrator = administratorService.getById(administratorId);
+        AdministratorGetProfileOutDTO administratorGetProfileOutDTO = new AdministratorGetProfileOutDTO();
+        administratorGetProfileOutDTO.setAdministratorId(administrator.getAdministratorId());
+        administratorGetProfileOutDTO.setUsername(administrator.getUsername());
+        administratorGetProfileOutDTO.setRealName(administrator.getRealName());
+        administratorGetProfileOutDTO.setEmail(administrator.getEmail());
+        administratorGetProfileOutDTO.setAvatarUrl(administrator.getAvatarUrl());
+        administratorGetProfileOutDTO.setCreateTimestamp(administrator.getCreateTime().getTime());
+
+        return administratorGetProfileOutDTO;
     }
-    //管理员列表页
-    @GetMapping("/profile")
-    public AdministratorGetProfileOutDTO Profile(){
-        return null;
-    }
-    //管理员添加页
-    @PostMapping("/add")
-    public void addadministrator(@RequestBody AdministratorCreateInDTO administratorAddInDTO){
+
+    @PostMapping("/updateProfile")
+    public void updateProfile(@RequestBody AdministratorUpdateProfileInDTO administratorUpdateProfileInDTO,
+                              @RequestAttribute Integer administratorId){
+        Administrator administrator = new Administrator();
+        administrator.setAdministratorId(administratorId);
+        administrator.setRealName(administratorUpdateProfileInDTO.getRealName());
+        administrator.setEmail(administratorUpdateProfileInDTO.getEmail());
+        administrator.setAvatarUrl(administratorUpdateProfileInDTO.getAvatarUrl());
+        administratorService.update(administrator);
 
     }
-    //编辑管理员页面
-    @GetMapping("/update")
-    public AdministratorShowOutDTO updateProfile(@RequestParam("administratorId")Integer administratorId){
+
+    @PostMapping("/changePwd")
+    public void changePwd(@RequestBody AdministratorChangePwdInDTO administratorChangePwdInDTO,
+                          @RequestAttribute Integer administratorId){
+
+    }
+
+    @GetMapping("/getPwdResetCode")
+    public String getPwdResetCode(@RequestParam String email){
         return null;
     }
-    //查询管理员页面
+
+    @PostMapping("/resetPwd")
+    public void resetPwd(@RequestBody AdministratorResetPwdInDTO administratorResetPwdInDTO){
+
+    }
+
+    @GetMapping("/getList")
+    public PageOutDTO<AdministratorListOutDTO> getList(@RequestParam(required = false, defaultValue = "1") Integer pageNum){
+        Page<Administrator> page = administratorService.getList(pageNum);
+        List<AdministratorListOutDTO> administratorListOutDTOS = page.stream().map(administrator -> {
+            AdministratorListOutDTO administratorListOutDTO = new AdministratorListOutDTO();
+            administratorListOutDTO.setAdministratorId(administrator.getAdministratorId());
+            administratorListOutDTO.setUsername(administrator.getUsername());
+            administratorListOutDTO.setRealName(administrator.getRealName());
+            administratorListOutDTO.setStatus(administrator.getStatus());
+            administratorListOutDTO.setCreateTimestamp(administrator.getCreateTime().getTime());
+            return administratorListOutDTO;
+        }).collect(Collectors.toList());
+
+        PageOutDTO<AdministratorListOutDTO> pageOutDTO = new PageOutDTO<>();
+        pageOutDTO.setTotal(page.getTotal());
+        pageOutDTO.setPageSize(page.getPageSize());
+        pageOutDTO.setPageNum(page.getPageNum());
+        pageOutDTO.setList(administratorListOutDTOS);
+
+        return pageOutDTO;
+    }
+
+    @GetMapping("/getById")
+    public AdministratorShowOutDTO getById(@RequestParam Integer administratorId){
+        Administrator administrator = administratorService.getById(administratorId);
+
+        AdministratorShowOutDTO administratorShowOutDTO = new AdministratorShowOutDTO();
+        administratorShowOutDTO.setAdministratorId(administrator.getAdministratorId());
+        administratorShowOutDTO.setUsername(administrator.getUsername());
+        administratorShowOutDTO.setRealName(administrator.getRealName());
+        administratorShowOutDTO.setEmail(administrator.getEmail());
+        administratorShowOutDTO.setAvatarUrl(administrator.getAvatarUrl());
+        administratorShowOutDTO.setStatus(administrator.getStatus());
+        return administratorShowOutDTO;
+    }
+
+    @PostMapping("/create")
+    public Integer create(@RequestBody AdministratorCreateInDTO administratorCreateInDTO){
+        Administrator administrator = new Administrator();
+        administrator.setUsername(administratorCreateInDTO.getUsername());
+        administrator.setRealName(administratorCreateInDTO.getRealName());
+        administrator.setEmail(administratorCreateInDTO.getEmail());
+        administrator.setAvatarUrl(administratorCreateInDTO.getAvatarUrl());
+        administrator.setStatus((byte) AdministratorStatus.Enable.ordinal());
+        administrator.setCreateTime(new Date());
+
+        String bcryptHashString = BCrypt.withDefaults().hashToString(12, administratorCreateInDTO.getPassword().toCharArray());
+        administrator.setEncryptedPassword(bcryptHashString);
+
+        Integer administratorId = administratorService.create(administrator);
+
+        return administratorId;
+    }
+
     @PostMapping("/update")
-    public void UpdateProdile(@RequestBody AdministratorUpdateInDTO  administratorUpdateInDto){
+    public void update(@RequestBody AdministratorUpdateInDTO administratorUpdateInDTO){
+        Administrator administrator = new Administrator();
+        administrator.setAdministratorId(administratorUpdateInDTO.getAdministratorId());
+        administrator.setRealName(administratorUpdateInDTO.getRealName());
+        administrator.setEmail(administratorUpdateInDTO.getEmail());
+        administrator.setAvatarUrl(administratorUpdateInDTO.getAvatarUrl());
+        administrator.setStatus(administratorUpdateInDTO.getStatus());
+        String password = administratorUpdateInDTO.getPassword();
+        if (password != null && !password.isEmpty()){
+            String bcryptHashString = BCrypt.withDefaults().hashToString(12, password.toCharArray());
+            administrator.setEncryptedPassword(bcryptHashString);
+        }
+        administratorService.update(administrator);
+    }
 
+    @PostMapping("/delete")
+    public void delete(@RequestBody Integer adminstratorId){
+        administratorService.delete(adminstratorId);
     }
-    //根据email查询是否正确
-    @GetMapping("/getPwdRestCode")
-    public String getPwdRestCode(@RequestParam String email){
-        return null;
-    }
-    //重新设置新的密码
-    @PostMapping("/restpwd")
-    public void restpwd(@RequestBody AdministratorResetPwdInDTO administratorResetPwdInDTO){
 
+    @PostMapping("/batchDelete")
+    public void batchDelete(@RequestBody List<Integer> administratorIds){
+        administratorService.batchDelete(administratorIds);
     }
+
 }

@@ -118,7 +118,7 @@ var app = new Vue({
                 mainPicUrl: this.mainPicUrl,
                 rewordPoints: this.rewordPoints,
                 sortOrder: this.sortOrder,
-                // productAbstract: this.productAbstract,
+                productAbstract: this.productAbstract,
                 description: this.description,
                 otherPicUrls: this.otherPicUrls
             })

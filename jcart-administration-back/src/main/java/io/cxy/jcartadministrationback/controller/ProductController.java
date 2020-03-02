@@ -15,45 +15,51 @@ import java.util.List;
 
 @RestController
 @RequestMapping("/product")
+@CrossOrigin
 public class ProductController {
+
     @Autowired
     private ProductService productService;
 
-    @GetMapping("/list")
-    public PageOutDTO<ProductListOutDTO> list(@RequestBody ProductSearchInDTO productListInDTO,
-                                              @RequestParam(defaultValue = "1") Integer pageNum) {
+    @GetMapping("/search")
+    public PageOutDTO<ProductListOutDTO> search(ProductSearchInDTO productSearchInDTO,
+                                                @RequestParam(required = false, defaultValue = "1") Integer pageNum){
         Page<ProductListOutDTO> page = productService.search(pageNum);
+
         PageOutDTO<ProductListOutDTO> pageOutDTO = new PageOutDTO<>();
         pageOutDTO.setTotal(page.getTotal());
         pageOutDTO.setPageSize(page.getPageSize());
         pageOutDTO.setPageNum(page.getPageNum());
         pageOutDTO.setList(page);
+
         return pageOutDTO;
     }
 
-    @PostMapping("/create")
-    public Integer createProduct(@RequestBody ProductCreateInDTO productCreateInDTO) {
-        return productService.create(productCreateInDTO);
+    @GetMapping("/getById")
+    public ProductShowOutDTO getById(@RequestParam Integer productId){
+        ProductShowOutDTO productShowOutDTO = productService.getById(productId);
+        return productShowOutDTO;
     }
 
-    @GetMapping("/getById")
-    public ProductShowOutDTO getById(@RequestParam Integer productId) {
-        return productService.getById(productId);
+    @PostMapping("/create")
+    public Integer create(@RequestBody ProductCreateInDTO productCreateInDTO){
+        Integer productId = productService.create(productCreateInDTO);
+        return productId;
     }
 
     @PostMapping("/update")
-    public void update(@RequestBody ProductUpdateInDTO productUpdateInDTO) {
+    public void update(@RequestBody ProductUpdateInDTO productUpdateInDTO){
         productService.update(productUpdateInDTO);
     }
 
     @PostMapping("/delete")
-    public void delete(@RequestParam Integer productId) {
+    public void delete(@RequestBody Integer productId){
         productService.delete(productId);
     }
 
-    @PostMapping("/deletes")
-    public void deletes(@RequestParam List<Integer> productId) {
-        productService.deletes(productId);
-
+    @PostMapping("/batchDelete")
+    public void batchDelete(@RequestBody List<Integer> productIds){
+        productService.batchDelete(productIds);
     }
+
 }
