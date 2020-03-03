@@ -9,15 +9,20 @@ var app = new Vue({
         description: '',
         stockQuantity: '',
         mainPicUrl: '',
-        otherPicUrls: []
+        otherPicUrls: [],
+        quantity: 1,
+        myShoppingCart: []
     },
-    computed:{
-        otherPicUrlsJson(){
+    computed: {
+        otherPicUrlsJson() {
             return this.otherPicUrls.toString();
         }
     },
-    mounted(){
+    mounted() {
         console.log('view mounted');
+
+        var myShoppingCartJson = localStorage['myShoppingCart'];
+        this.myShoppingCart = myShoppingCartJson ? JSON.parse(myShoppingCartJson) : [];
 
         var url = new URL(location.href);
         this.productId = url.searchParams.get("productId");
@@ -27,8 +32,24 @@ var app = new Vue({
         }
 
         this.getProductById();
+
     },
     methods: {
+        handleAddToCartClick() {
+            console.log('add to cart click');
+            var newProduct = {
+                productId: 1235,
+                productCode: "pc001",
+                productName: "uMac",
+                mainPicUrl: "Jttp://bbb.jpg",
+                unitPrice: 8999.99,
+                quantity: 1,
+                totalPrice: 8999.99
+            };
+            this.myShoppingCart.push(newProduct);
+            localStorage['myShoppingCartJson'] = JSON.stringify(this.myShoppingCart);
+            this.$message.success("加入购物车成功");
+        },
         getProductById() {
             axios.get('/product/getById', {
                 params: {

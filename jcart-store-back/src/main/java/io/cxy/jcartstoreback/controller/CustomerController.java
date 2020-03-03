@@ -1,3 +1,4 @@
+/*
 package io.cxy.jcartstoreback.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
@@ -33,7 +34,7 @@ public class CustomerController {
     @Autowired
     private SecureRandom secureRandom;
 
-    @Autowired(required=true)
+    @Autowired
     private JavaMailSender mailSender;
 
     @Value("${spring.mail.username}")
@@ -131,3 +132,4 @@ public class CustomerController {
 
 
 }
+*/
