@@ -20,7 +20,10 @@
             </el-table-column>
             <el-table-column prop="unitPrice" label="单价" width="180">
             </el-table-column>
-            <el-table-column prop="quantity" label="数量" width="180">
+            <el-table-column label="数量">
+                <template slot-scope="scope">
+                    <el-input v-model="input" placeholder="请输入内容"></el-input>
+                </template>
             </el-table-column>
             <el-table-column prop="totalPrice" label="总价" width="180">
             </el-table-column>
