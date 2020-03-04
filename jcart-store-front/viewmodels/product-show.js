@@ -21,7 +21,7 @@ var app = new Vue({
     mounted() {
         console.log('view mounted');
 
-        var myShoppingCartJson = localStorage['myShoppingCart'];
+        var myShoppingCartJson = localStorage['myShoppingCartJson'];
         this.myShoppingCart = myShoppingCartJson ? JSON.parse(myShoppingCartJson) : [];
 
         var url = new URL(location.href);
@@ -38,14 +38,15 @@ var app = new Vue({
         handleAddToCartClick() {
             console.log('add to cart click');
             var newProduct = {
-                productId: 1235,
-                productCode: "pc001",
-                productName: "uMac",
-                mainPicUrl: "Jttp://bbb.jpg",
-                unitPrice: 8999.99,
-                quantity: 1,
-                totalPrice: 8999.99
+                productId: this.productId,
+                productCode: this.productCode,
+                productName: this.productName,
+                mainPicUrl: this.mainPicUrl,
+                unitPrice: this.price,
+                quantity: this.quantity
             };
+            var myShoppingCartJson = localStorage['myShoppingCartJson'];
+            this.myShoppingCart = myShoppingCartJson ? JSON.parse(myShoppingCartJson) : [];
             this.myShoppingCart.push(newProduct);
             localStorage['myShoppingCartJson'] = JSON.stringify(this.myShoppingCart);
             this.$message.success("加入购物车成功");
