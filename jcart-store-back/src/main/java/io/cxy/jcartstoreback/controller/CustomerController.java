@@ -1,4 +1,3 @@
-/*
 package io.cxy.jcartstoreback.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
@@ -37,7 +36,7 @@ public class CustomerController {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Value("${spring.mail.username}")
+    @Value("chenjiefei@xiaofeiinfo.com")
     private String fromEmail;
 
     private HashMap<String, String> emailPwdResetCodeMap = new HashMap();
@@ -132,4 +131,3 @@ public class CustomerController {
 
 
 }
-*/
