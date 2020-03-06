@@ -4,7 +4,7 @@ import io.cxy.jcartstoreback.dto.in.OrderCheckoutInDTO;
 
 public interface OrderService {
 
-    Integer checkout(OrderCheckoutInDTO orderCheckoutInDTO,
+    Long checkout(OrderCheckoutInDTO orderCheckoutInDTO,
                       Integer customerId);
 
 

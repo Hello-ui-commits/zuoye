@@ -6,6 +6,8 @@ import io.cxy.jcartstoreback.dto.out.OrderShowOutDTO;
 import io.cxy.jcartstoreback.dto.out.PageOutDTO;
 import io.cxy.jcartstoreback.dto.out.ProductShowOutDTO;
 import io.cxy.jcartstoreback.po.Order;
+import io.cxy.jcartstoreback.service.OrderService;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -13,11 +15,14 @@ import org.springframework.web.bind.annotation.*;
 @CrossOrigin
 public class OrderController {
 
+    @Autowired
+    private OrderService orderService;
+
     @PostMapping("/checkout")
     public Long checkout(@RequestBody OrderCheckoutInDTO orderCheckoutInDTO,
                          @RequestAttribute Integer customerId) {
 
-        return null;
+        return orderService.checkout(orderCheckoutInDTO,customerId);
     }
 
     @GetMapping("/getList")

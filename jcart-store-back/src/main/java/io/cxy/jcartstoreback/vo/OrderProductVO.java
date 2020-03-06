@@ -2,10 +2,27 @@ package io.cxy.jcartstoreback.vo;
 
 public class OrderProductVO {
     private Integer productId;
-
+    private String productName;
+    private String productCode;
     private Integer quantity;
 
     private Double unitPrice;
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
 
     private Double productTotal;
 
