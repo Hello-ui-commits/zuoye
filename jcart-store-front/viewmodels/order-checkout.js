@@ -39,7 +39,7 @@ var app = new Vue({
         },
         orderProducts(){
             var orderProducts =this.myShoppingCart.map(p=>{
-                var orderProduct = '';
+                var orderProduct = new Object();
                 orderProduct.productId=p.productId;
                 orderProduct.quantity =p.quantity;
                 return orderProduct;

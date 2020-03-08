@@ -5,7 +5,7 @@ public class OrderProductVO {
     private String productName;
     private String productCode;
     private Integer quantity;
-
+    private Double totalPrice;
     private Double unitPrice;
 
     public String getProductName() {
@@ -76,5 +76,13 @@ public class OrderProductVO {
 
     public void setProductTotal(Double productTotal) {
         this.productTotal = productTotal;
+    }
+
+    public Double getTotalPrice() {
+        return totalPrice;
+    }
+
+    public void setTotalPrice(Double totalPrice) {
+        this.totalPrice = totalPrice;
     }
 }

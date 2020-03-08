@@ -2,7 +2,7 @@ package io.cxy.jcartstoreback.enumeration;
 
 public enum OrderStatus {
 
-    Toprocess,
+    ToProcess,
     Processing,
     Toship,
     ToReceive,
