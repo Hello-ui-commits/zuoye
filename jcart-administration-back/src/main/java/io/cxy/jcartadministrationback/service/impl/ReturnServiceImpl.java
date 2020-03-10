@@ -3,6 +3,7 @@ package io.cxy.jcartadministrationback.service.impl;
 import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.cxy.jcartadministrationback.dao.ReturnMapper;
+import io.cxy.jcartadministrationback.dto.in.ReturnSearchInDTO;
 import io.cxy.jcartadministrationback.po.Return;
 import io.cxy.jcartadministrationback.service.ReturnService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -15,9 +16,9 @@ public class ReturnServiceImpl implements ReturnService {
     private ReturnMapper returnMapper;
 
     @Override
-    public Page<Return> search(Integer pageNum) {
+    public Page<Return> search(ReturnSearchInDTO returnSearchInDTO, Integer pageNum) {
         PageHelper.startPage(pageNum, 10);
-        Page<Return> page = returnMapper.search();
+        Page<Return> page = returnMapper.search(pageNum,returnSearchInDTO);
         return page;
     }
 

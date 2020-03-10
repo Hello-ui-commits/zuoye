@@ -1,5 +1,6 @@
 package io.cxy.jcartstoreback.dao;
 
+import com.github.pagehelper.Page;
 import io.cxy.jcartstoreback.po.Return;
 
 public interface ReturnMapper {
@@ -14,4 +15,6 @@ public interface ReturnMapper {
     int updateByPrimaryKeySelective(Return record);
 
     int updateByPrimaryKey(Return record);
+
+    Page<Return> selectPageByCustomerId(Integer customerId);
 }

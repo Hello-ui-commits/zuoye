@@ -1,7 +1,9 @@
 package io.cxy.jcartadministrationback.dao;
 
 import com.github.pagehelper.Page;
+import io.cxy.jcartadministrationback.dto.in.ReturnSearchInDTO;
 import io.cxy.jcartadministrationback.po.Return;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,6 +22,6 @@ public interface ReturnMapper {
 
 //    custom
 
-    Page<Return> search();
+    Page<Return> search(@Param("customerId") Integer customerId, ReturnSearchInDTO returnSearchInDTO);
 
 }

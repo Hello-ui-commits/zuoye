@@ -24,4 +24,5 @@ public interface ReturnHistoryMapper {
 
     List<ReturnHistory> selectListByReturnId(@Param("returnId") Integer returnId);
 
+    List<ReturnHistory> selectByReturnId(Integer returnId);
 }

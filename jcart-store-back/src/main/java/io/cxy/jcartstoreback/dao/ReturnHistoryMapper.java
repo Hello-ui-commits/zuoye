@@ -2,6 +2,8 @@ package io.cxy.jcartstoreback.dao;
 
 import io.cxy.jcartstoreback.po.ReturnHistory;
 
+import java.util.List;
+
 public interface ReturnHistoryMapper {
     int deleteByPrimaryKey(Long returnHistoryId);
 
@@ -14,4 +16,6 @@ public interface ReturnHistoryMapper {
     int updateByPrimaryKeySelective(ReturnHistory record);
 
     int updateByPrimaryKey(ReturnHistory record);
+
+    List<ReturnHistory> selectByReturnId(Integer returnId);
 }
