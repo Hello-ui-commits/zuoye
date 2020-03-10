@@ -7,13 +7,36 @@ var app = new Vue({
             { value: 0, label: '禁用' },
             { value: 1, label: '启用' },
             { value: 2, label: '不安全' }
-        ]
+        ],
+        username:'',
+        realname:'',
+        mobile:'',
+        email:'',
+        status:''
     },
     mounted() {
         console.log('view mounted');
         this.searchCustomer();
     },
     methods: {
+        handelMohuSearch(){
+            axios.get('/user', {
+                params: {
+                  username:this.username,
+                  realName:this.realname,
+                  mobile:this.mobile,
+                  email:this.email,
+                  status:this.status
+                }
+              })
+              .then(function (response) {
+                console.log(response);
+                app.pageInfo = response.data;
+              })
+              .catch(function (error) {
+                console.log(error);
+              });
+        },
         handlePageChange(val) {
             console.log('page changed');
             this.pageNum = val;
