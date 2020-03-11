@@ -19,27 +19,9 @@ var app = new Vue({
         this.searchCustomer();
     },
     methods: {
-        handelMohuSearch(){
-            axios.get('/user', {
-                params: {
-                  username:this.username,
-                  realName:this.realname,
-                  mobile:this.mobile,
-                  email:this.email,
-                  status:this.status
-                }
-              })
-              .then(function (response) {
-                console.log(response);
-                app.pageInfo = response.data;
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-        },
-        handlePageChange(val) {
+        handlePageChange() {
             console.log('page changed');
-            this.pageNum = val;
+            this.pageNum = 1;
             this.searchCustomer();
         },
         handleUpdateStatus(index, row) {
@@ -49,7 +31,13 @@ var app = new Vue({
         searchCustomer() {
             axios.get('/customer/search', {
                 params: {
+                    username:this.username,
+                    realName:this.realname,
+                    mobile:this.mobile,
+                    email:this.email,
+                    status:this.status,
                     pageNum: this.pageNum
+                   
                 }
             })
                 .then(function (response) {

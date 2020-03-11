@@ -2,6 +2,7 @@ package io.cxy.jcartadministrationback.dao;
 
 import com.github.pagehelper.Page;
 import io.cxy.jcartadministrationback.po.Customer;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -20,6 +21,10 @@ public interface CustomerMapper {
 
 //    custom
 
-    Page<Customer> search();
+    Page<Customer> search(@Param("username") String username,
+                          @Param("realName") String realName,
+                          @Param("email") String email,
+                          @Param("mobile") String mobile,
+                          @Param("status") Byte status);
 
 }
