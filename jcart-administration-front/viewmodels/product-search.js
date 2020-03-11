@@ -4,7 +4,7 @@ var app = new Vue({
         pageInfo: '',
         pageNum: 1,
         productCode:'',
-        productCode:'',
+        productName:'',
         price:'',
         stockQuantity:'',
         selectedStatus:'',
