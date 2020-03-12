@@ -29,8 +29,8 @@ var app = new Vue({
     },
     methods: {
         handlePageChange() {
-            console.log('page changed', val);
-            this.pageNum = val;
+            console.log('page changed');
+            this.pageNum = 1;
             this.searchOrder();
         },
         searchOrder() {

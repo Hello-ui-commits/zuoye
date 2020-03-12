@@ -2,7 +2,18 @@ var app = new Vue({
     el: '#app',
     data: {
         pageInfo: '',
-        pageNum: 1
+        pageNum: 1,
+        actions: [
+            { value: 0, label: '退货' },
+            { value: 1, label: '换货' },
+            { value: 2, label: '修理' }
+        ],
+        returnId:'',
+        orderId:'',
+        customerName:'',
+        productCode:'',
+        productName:'',
+        selectedStatus:'',
     },
     mounted() {
         console.log('view mounted');
@@ -17,7 +28,13 @@ var app = new Vue({
         searchReturn() {
             axios.get('/return/search', {
                 params: {
-                    pageNum: this.pageNum
+                    pageNum: this.pageNum,
+                    returnId:this.returnId,
+                    orderId:this.orderId,
+                    customerName:this.customerName,
+                    productCode:this.productCode,
+                    productName:this.productName,
+                    status:this.selectedStatus,
                 }
             })
                 .then(function (response) {
