@@ -5,6 +5,7 @@ import com.github.pagehelper.Page;
 import com.github.pagehelper.PageHelper;
 import io.cxy.jcartadministrationback.dao.OrderDetailMapper;
 import io.cxy.jcartadministrationback.dao.OrderMapper;
+import io.cxy.jcartadministrationback.dto.in.OrderSearchInDTO;
 import io.cxy.jcartadministrationback.dto.out.OrderListOutDTO;
 import io.cxy.jcartadministrationback.dto.out.OrderShowOutDTO;
 import io.cxy.jcartadministrationback.po.Customer;
@@ -31,9 +32,9 @@ public class OrderServiceImpl implements OrderService {
     private CustomerService customerService;
 
     @Override
-    public Page<OrderListOutDTO> search(Integer pageNum) {
+    public Page<OrderListOutDTO> search(OrderSearchInDTO orderSearchInDTO, Integer pageNum) {
         PageHelper.startPage(pageNum, 10);
-        Page<OrderListOutDTO> page = orderMapper.search();
+        Page<OrderListOutDTO> page = orderMapper.search(orderSearchInDTO);
         return page;
     }
 

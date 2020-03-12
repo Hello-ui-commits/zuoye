@@ -1,6 +1,7 @@
 package io.cxy.jcartadministrationback.dao;
 
 import com.github.pagehelper.Page;
+import io.cxy.jcartadministrationback.dto.in.OrderSearchInDTO;
 import io.cxy.jcartadministrationback.dto.out.OrderListOutDTO;
 import io.cxy.jcartadministrationback.po.Order;
 import org.springframework.stereotype.Repository;
@@ -21,6 +22,6 @@ public interface OrderMapper {
 
 //    custom
 
-    Page<OrderListOutDTO> search();
+    Page<OrderListOutDTO> search(OrderSearchInDTO orderSearchInDTO);
 
 }
