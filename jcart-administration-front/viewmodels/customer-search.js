@@ -28,6 +28,14 @@ var app = new Vue({
             console.log('update status click');
             this.updateCustomerStatus(row.customerId, row.status);
         },
+        handleClearClick() {
+            console.log('clear click');
+            this.username = '';
+            this.realname = '';
+            this.mobile = '';
+            this.email = '';
+            this.status = '';
+        },
         searchCustomer() {
             axios.get('/customer/search', {
                 params: {

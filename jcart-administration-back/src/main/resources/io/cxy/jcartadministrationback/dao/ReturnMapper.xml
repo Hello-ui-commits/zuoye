@@ -243,19 +243,19 @@
         return_id =#{returnId}
       </if>
       <if test="orderId!=null">
-        order_id =#{orderId}
+        and order_id =#{orderId}
       </if>
       <if test="customerName!=null and customerName!=''">
-        customer_name concat('%',#{customerName},'%')
+        and customer_name concat('%',#{customerName},'%')
       </if>
       <if test="productCode!=null and productCode!='' ">
-        product_code concat('%',#{productCode},'%')
+        and product_code concat('%',#{productCode},'%')
       </if>
       <if test="productName!=null and productName!=''">
-        product_name concat('%',#{productName},'%')
+        and product_name concat('%',#{productName},'%')
       </if>
       <if test="status!=null ">
-        status =#{status}
+        and status =#{status}
       </if>
     </where>
     order by create_time desc

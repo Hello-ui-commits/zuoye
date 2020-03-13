@@ -33,6 +33,13 @@ var app = new Vue({
             this.pageNum = 1;
             this.searchOrder();
         },
+        handleClearClick() {
+            console.log('clear click');
+            this.orderId = '';
+            this.customerName = '';
+            this.selectedStatus = '';
+            this.totalPrice = '';
+        },
         searchOrder() {
             axios.get('/order/search', {
                 params: {

@@ -22,6 +22,5 @@ public interface ReturnMapper {
 
 //    custom
 
-    Page<Return> search(@Param("customerId") Integer customerId, ReturnSearchInDTO returnSearchInDTO);
-
+    Page<Return> search(@Param("returnId") Integer returnId, @Param("customerName") String customerName,@Param("orderId")  Long orderId,@Param("productCode")  String productCode,@Param("productName")  String productName,@Param("status")  Byte status);
 }

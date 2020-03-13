@@ -18,7 +18,14 @@ public class ReturnServiceImpl implements ReturnService {
     @Override
     public Page<Return> search(ReturnSearchInDTO returnSearchInDTO, Integer pageNum) {
         PageHelper.startPage(pageNum, 10);
-        Page<Return> page = returnMapper.search(pageNum,returnSearchInDTO);
+        Page<Return> page = returnMapper.search(
+                returnSearchInDTO.getReturnId(),
+                returnSearchInDTO.getCustomerName(),
+                returnSearchInDTO.getOrderId(),
+                returnSearchInDTO.getProductCode(),
+                returnSearchInDTO.getProductName(),
+                returnSearchInDTO.getStatus()
+        );
         return page;
     }
 

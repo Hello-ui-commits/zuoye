@@ -17,9 +17,11 @@ import org.springframework.web.bind.annotation.*;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
+import java.util.stream.Stream;
 
 @RestController
 @RequestMapping("/return")
+@CrossOrigin
 public class ReturnController {
 
     @Autowired
@@ -49,7 +51,6 @@ public class ReturnController {
         aReturn.setCreateTime(now);
         aReturn.setUpdateTime(now);
         returnService.create(aReturn);
-
         Integer returnId = aReturn.getReturnId();
 
         return returnId;
