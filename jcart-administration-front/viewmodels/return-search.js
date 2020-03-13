@@ -25,6 +25,15 @@ var app = new Vue({
             this.pageNum = val;
             this.searchReturn();
         },
+        handleClearClick() {
+            console.log('clear click');
+            this.returnId = '';
+            this.orderId = '';
+            this.customerName = '';
+            this.productCode = '';
+            this.productName = '';
+            this.selectedStatus='';
+        },
         searchReturn() {
             axios.get('/return/search', {
                 params: {

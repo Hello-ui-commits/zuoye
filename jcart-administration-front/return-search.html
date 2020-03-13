@@ -21,6 +21,7 @@
             </el-option>
         </el-select>   <br>
         <el-button type="primary" @click="searchReturn">搜索</el-button>   
+        <el-button type="primary" @click="handleClearClick">清空条件</el-button> 
 
 
         <el-table :data="pageInfo.list" style="width: 100%">

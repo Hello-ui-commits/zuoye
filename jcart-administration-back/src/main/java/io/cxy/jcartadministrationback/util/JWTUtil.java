@@ -19,7 +19,7 @@ public class JWTUtil {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("3600000")
+    @Value("36000000")
     private Long jwtValidDuration;
 
     @Value("jcart")

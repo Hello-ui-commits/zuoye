@@ -36,7 +36,7 @@ public class ImageController {
             byte[] data = image.getBytes();
             out.write(data);
         }
-        return filename;
+        return "http://127.0.0.1/"+filename;
     }
 
 }
