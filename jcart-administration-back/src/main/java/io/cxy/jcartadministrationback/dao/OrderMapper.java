@@ -4,7 +4,10 @@ import com.github.pagehelper.Page;
 import io.cxy.jcartadministrationback.dto.in.OrderSearchInDTO;
 import io.cxy.jcartadministrationback.dto.out.OrderListOutDTO;
 import io.cxy.jcartadministrationback.po.Order;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 
 @Repository
 public interface OrderMapper {
@@ -22,6 +25,11 @@ public interface OrderMapper {
 
 //    custom
 
-    Page<OrderListOutDTO> search(OrderSearchInDTO orderSearchInDTO);
+    Page<OrderListOutDTO> search(@Param("orderId") Long orderId,
+                                 @Param("status") Byte status,
+                                 @Param("totalPrice") Double totalPrice,
+                                 @Param("customerName") String customerName,
+                                 @Param("startTime") Date startTime,
+                                 @Param("endTime") Date endTime);
 
 }

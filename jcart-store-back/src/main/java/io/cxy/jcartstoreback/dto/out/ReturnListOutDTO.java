@@ -4,7 +4,7 @@ public class ReturnListOutDTO {
     private Integer returnId;
     private Byte status;
     private Long createTimestamp;
-    private Integer orderId;
+    private Long orderId;
     private Integer customerId;
     private String customerName;
 
@@ -32,11 +32,11 @@ public class ReturnListOutDTO {
         this.createTimestamp = createTimestamp;
     }
 
-    public Integer getOrderId() {
+    public Long getOrderId() {
         return orderId;
     }
 
-    public void setOrderId(Integer orderId) {
+    public void setOrderId(Long orderId) {
         this.orderId = orderId;
     }
 

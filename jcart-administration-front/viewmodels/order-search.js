@@ -2,7 +2,10 @@ var app = new Vue({
     el: '#app',
     data: {
         pageInfo: '',
-        pageNum: 1,
+        orderId: '',
+        customerName: '',
+        totalPrice: '',
+        selectedStatus: '',
         statuses: [
             { value: 0, label: '待处理' },
             { value: 1, label: '处理中' },
@@ -18,18 +21,17 @@ var app = new Vue({
             { value: 11, label: '待评价' },
             { value: 12, label: '已评价' }
         ],
-        orderId:'',
-        customerName:'',
-        totalPrice:'',
-        selectedStatus:''
+        startTime: '',
+        endTime: '',
+        pageNum: 1
     },
     mounted() {
         console.log('view mounted');
         this.searchOrder();
     },
     methods: {
-        handlePageChange() {
-            console.log('page changed');
+        handleSearchClick() {
+            console.log('search click');
             this.pageNum = 1;
             this.searchOrder();
         },
@@ -39,15 +41,24 @@ var app = new Vue({
             this.customerName = '';
             this.selectedStatus = '';
             this.totalPrice = '';
+            this.startTime = '';
+            this.endTime = '';
+        },
+        handlePageChange() {
+            console.log('page changed', val);
+            this.pageNum = val;
+            this.searchOrder();
         },
         searchOrder() {
             axios.get('/order/search', {
                 params: {
-                    pageNum: this.pageNum,
-                    orderId:this.orderId,
-                    customerName:this.customerName,
-                    status:this.selectedStatus,
-                    totalPrice:this.totalPrice
+                    orderId: this.orderId,
+                    customerName: this.customerName,
+                    status: this.selectedStatus,
+                    totalPrice: this.totalPrice,
+                    startTimestamp: this.startTime ? this.startTime.getTime() : '',
+                    endTimestamp: this.endTime ? this.endTime.getTime() : '',
+                    pageNum: this.pageNum
                 }
             })
                 .then(function (response) {

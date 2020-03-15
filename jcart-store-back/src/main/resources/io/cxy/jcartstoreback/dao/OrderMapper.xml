@@ -105,10 +105,11 @@
       total_price = #{totalPrice,jdbcType=DOUBLE},
       reword_points = #{rewordPoints,jdbcType=INTEGER},
       create_time = #{createTime,jdbcType=TIMESTAMP},
-      update_time = #{updateTime,jdbcType=TIMESTAMP}
+      update_time = #{updateTimeselectByCustomerId,jdbcType=TIMESTAMP}
     where order_id = #{orderId,jdbcType=BIGINT}
   </update>
-  <!--  custom-->
+
+<!--  custom-->
   <select id="selectByCustomerId" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -116,5 +117,4 @@
     where customer_id = #{customerId}
     order by create_time desc
   </select>
-
 </mapper>

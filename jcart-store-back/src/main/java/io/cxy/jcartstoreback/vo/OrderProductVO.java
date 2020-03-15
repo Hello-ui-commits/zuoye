@@ -2,49 +2,13 @@ package io.cxy.jcartstoreback.vo;
 
 public class OrderProductVO {
     private Integer productId;
-    private String productName;
     private String productCode;
+    private String productName;
     private Integer quantity;
-    private Double totalPrice;
     private Double unitPrice;
-
-    public String getProductName() {
-        return productName;
-    }
-
-    public void setProductName(String productName) {
-        this.productName = productName;
-    }
-
-    public String getProductCode() {
-        return productCode;
-    }
-
-    public void setProductCode(String productCode) {
-        this.productCode = productCode;
-    }
-
-    private Double productTotal;
-
+    private Double totalPrice;
     private Integer unitRewordPoints;
-
     private Integer totalRewordPoints;
-
-    public Integer getUnitRewordPoints() {
-        return unitRewordPoints;
-    }
-
-    public void setUnitRewordPoints(Integer unitRewordPoints) {
-        this.unitRewordPoints = unitRewordPoints;
-    }
-
-    public Integer getTotalRewordPoints() {
-        return totalRewordPoints;
-    }
-
-    public void setTotalRewordPoints(Integer totalRewordPoints) {
-        this.totalRewordPoints = totalRewordPoints;
-    }
 
     public Integer getProductId() {
         return productId;
@@ -70,19 +34,43 @@ public class OrderProductVO {
         this.unitPrice = unitPrice;
     }
 
-    public Double getProductTotal() {
-        return productTotal;
-    }
-
-    public void setProductTotal(Double productTotal) {
-        this.productTotal = productTotal;
-    }
-
     public Double getTotalPrice() {
         return totalPrice;
     }
 
     public void setTotalPrice(Double totalPrice) {
         this.totalPrice = totalPrice;
+    }
+
+    public Integer getUnitRewordPoints() {
+        return unitRewordPoints;
+    }
+
+    public void setUnitRewordPoints(Integer unitRewordPoints) {
+        this.unitRewordPoints = unitRewordPoints;
+    }
+
+    public Integer getTotalRewordPoints() {
+        return totalRewordPoints;
+    }
+
+    public void setTotalRewordPoints(Integer totalRewordPoints) {
+        this.totalRewordPoints = totalRewordPoints;
+    }
+
+    public String getProductCode() {
+        return productCode;
+    }
+
+    public void setProductCode(String productCode) {
+        this.productCode = productCode;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
     }
 }

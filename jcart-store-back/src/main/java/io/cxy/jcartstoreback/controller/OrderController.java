@@ -25,14 +25,15 @@ public class OrderController {
     @PostMapping("/checkout")
     public Long checkout(@RequestBody OrderCheckoutInDTO orderCheckoutInDTO,
                          @RequestAttribute Integer customerId) {
-        Long checkout = orderService.checkout(orderCheckoutInDTO, customerId);
-        return checkout;
+        Long orderId = orderService.checkout(orderCheckoutInDTO, customerId);
+        return orderId;
     }
 
     @GetMapping("/getList")
-    public PageOutDTO<OrderListOutDTO> getList(@RequestParam(defaultValue = "1") Integer pageNum,
+    public PageOutDTO<OrderListOutDTO> getList(@RequestParam(required = false, defaultValue = "1") Integer pageNum,
                                                @RequestAttribute Integer customerId) {
-        Page<Order> page=orderService.getByCustomerId(pageNum,customerId);
+        Page<Order> page = orderService.getByCustomerId(pageNum, customerId);
+
         List<OrderListOutDTO> orderListOutDTOS = page.stream().map(order -> {
             OrderListOutDTO orderListOutDTO = new OrderListOutDTO();
             orderListOutDTO.setOrderId(order.getOrderId());

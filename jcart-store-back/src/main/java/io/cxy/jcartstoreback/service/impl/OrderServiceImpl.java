@@ -9,7 +9,6 @@ import io.cxy.jcartstoreback.dto.in.OrderCheckoutInDTO;
 import io.cxy.jcartstoreback.dto.in.OrderProductInDTO;
 import io.cxy.jcartstoreback.dto.out.OrderHistoryListOutDTO;
 import io.cxy.jcartstoreback.dto.out.OrderShowOutDTO;
-import io.cxy.jcartstoreback.dto.out.ProductShowOutDTO;
 import io.cxy.jcartstoreback.enumeration.OrderStatus;
 import io.cxy.jcartstoreback.po.*;
 import io.cxy.jcartstoreback.service.AddressService;
@@ -24,23 +23,30 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.Date;
 import java.util.List;
 import java.util.stream.Collectors;
-import java.util.stream.DoubleStream;
 
 @Service
 public class OrderServiceImpl implements OrderService {
+
     @Autowired
     private OrderMapper orderMapper;
+
     @Autowired
     private OrderDetailMapper orderDetailMapper;
+
     @Autowired
     private ProductService productService;
+
     @Autowired
     private AddressService addressService;
+
+    @Autowired
+    private OrderHistoryService orderHistoryService;
 
     @Override
     @Transactional
     public Long checkout(OrderCheckoutInDTO orderCheckoutInDTO,
                             Integer customerId) {
+
         List<OrderProductInDTO> orderProductInDTOS = orderCheckoutInDTO.getOrderProducts();
         List<OrderProductVO> orderProductVOS = orderProductInDTOS.stream().map(orderProductInDTO -> {
             Product orderProduct = productService.getById(orderProductInDTO.getProductId());
@@ -104,8 +110,7 @@ public class OrderServiceImpl implements OrderService {
         Page<Order> page = orderMapper.selectByCustomerId(customerId);
         return page;
     }
-    @Autowired
-    private OrderHistoryService orderHistoryService;
+
     @Override
     public OrderShowOutDTO getById(Long orderId) {
         Order order = orderMapper.selectByPrimaryKey(orderId);

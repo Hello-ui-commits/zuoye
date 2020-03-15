@@ -2,6 +2,7 @@ package io.cxy.jcartstoreback.dao;
 
 import com.github.pagehelper.Page;
 import io.cxy.jcartstoreback.po.Order;
+import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
 
 @Repository
@@ -18,5 +19,6 @@ public interface OrderMapper {
 
     int updateByPrimaryKey(Order record);
 
-    Page<Order> selectByCustomerId(Integer customerId);
+    Page<Order> selectByCustomerId(@Param("customerId") Integer customerId);
+
 }

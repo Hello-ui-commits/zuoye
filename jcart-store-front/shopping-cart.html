@@ -20,22 +20,22 @@
             </el-table-column>
             <el-table-column label="价格">
                 <template slot-scope="scope">
-                    原价:{{scope.row.unitPrice}}
+                    原价：{{scope.row.unitPrice}}
                     <br>
-                    打折:{{scope.row.discount}}
+                    打折：{{scope.row.discount}}
                     <br>
-                    折后价:{{(scope.row.unitPrice * scope.row.discount).toFixed(2)}}
+                    折后价：{{(scope.row.unitPrice * scope.row.discount).toFixed(2)}}
                 </template>
             </el-table-column>
             <el-table-column label="数量">
                 <template slot-scope="scope">
-                    <el-input v-model="scope.row.quantity" placeholder="请输入数量"></el-input>
+                    <el-input v-model="scope.row.quantity" type="number" placeholder="请输入数量"></el-input>
                     <el-button size="mini" @click="handleUpdate(scope.$index, scope.row)">修改</el-button>
                 </template>
             </el-table-column>
-            <el-table-column label="总价">
+            <el-table-column label="总计">
                 <template slot-scope="scope">
-                    {{(scope.row.unitPrice * scope.row.discount *scope.row.quantity).toFixed(2)}}
+                    {{(scope.row.unitPrice * scope.row.discount * scope.row.quantity).toFixed(2)}}
                 </template>
             </el-table-column>
             <el-table-column label="操作">
@@ -44,8 +44,10 @@
                 </template>
             </el-table-column>
         </el-table>
+        总价：{{totalPrice}}
         <br>
-        总价:{{totalPrice}}
+
+        <el-button type="primary" @click="handleClearCart">清空购物车</el-button>
     </div>
 
     <script src="assets/js/axios.min.js"></script>

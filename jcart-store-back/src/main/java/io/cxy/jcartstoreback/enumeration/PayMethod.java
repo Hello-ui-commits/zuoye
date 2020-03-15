@@ -1,10 +1,9 @@
 package io.cxy.jcartstoreback.enumeration;
 
 public enum PayMethod {
-
+    CashOnDelivery,
     DebitCard,
-    CreditCard,
+    CreditCart,
     Wepay,
-    Alipay,
-    CashOnDelivery
+    Alipay
 }

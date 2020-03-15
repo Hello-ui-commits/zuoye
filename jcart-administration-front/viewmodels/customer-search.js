@@ -8,44 +8,48 @@ var app = new Vue({
             { value: 1, label: '启用' },
             { value: 2, label: '不安全' }
         ],
-        username:'',
-        realname:'',
-        mobile:'',
-        email:'',
-        status:''
+        username: '',
+        realName: '',
+        mobile: '',
+        email: '',
+        selectedStatus: ''
     },
     mounted() {
         console.log('view mounted');
         this.searchCustomer();
     },
     methods: {
-        handlePageChange() {
-            console.log('page changed');
+        handleSearchClick() {
+            console.log('search click');
             this.pageNum = 1;
+            this.searchCustomer();
+        },
+        handleClearClick() {
+            console.log('clear click');
+            this.username = '';
+            this.realName = '';
+            this.mobile = '';
+            this.email = '';
+            this.selectedStatus = '';
+        },
+        handlePageChange(val) {
+            console.log('page changed');
+            this.pageNum = val;
             this.searchCustomer();
         },
         handleUpdateStatus(index, row) {
             console.log('update status click');
             this.updateCustomerStatus(row.customerId, row.status);
         },
-        handleClearClick() {
-            console.log('clear click');
-            this.username = '';
-            this.realname = '';
-            this.mobile = '';
-            this.email = '';
-            this.status = '';
-        },
         searchCustomer() {
             axios.get('/customer/search', {
                 params: {
-                    username:this.username,
-                    realName:this.realname,
-                    mobile:this.mobile,
-                    email:this.email,
-                    status:this.status,
+                    username: this.username,
+                    realName: this.realName,
+                    mobile: this.mobile,
+                    email: this.email,
+                    status: this.selectedStatus,
                     pageNum: this.pageNum
-                   
                 }
             })
                 .then(function (response) {

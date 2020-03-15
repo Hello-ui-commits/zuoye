@@ -104,7 +104,7 @@
     where return_history_id = #{returnHistoryId,jdbcType=BIGINT}
   </update>
 
-
+<!--  custom-->
   <select id="selectByReturnId" resultMap="BaseResultMap">
     select
     <include refid="Base_Column_List" />
@@ -112,5 +112,4 @@
     where return_id = #{returnId}
     order by `time` desc
   </select>
-
 </mapper>

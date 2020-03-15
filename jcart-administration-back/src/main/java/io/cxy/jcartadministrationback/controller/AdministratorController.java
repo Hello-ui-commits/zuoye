@@ -2,8 +2,8 @@ package io.cxy.jcartadministrationback.controller;
 
 import at.favre.lib.crypto.bcrypt.BCrypt;
 import com.github.pagehelper.Page;
-import io.cxy.jcartadministrationback.dto.in.*;
 import io.cxy.jcartadministrationback.constant.ClientExceptionConstant;
+import io.cxy.jcartadministrationback.dto.in.*;
 import io.cxy.jcartadministrationback.dto.out.*;
 import io.cxy.jcartadministrationback.enumeration.AdministratorStatus;
 import io.cxy.jcartadministrationback.exception.ClientException;
@@ -143,6 +143,8 @@ public class AdministratorController {
         administrator.setEncryptedPassword(bcryptHashString);
         administratorService.update(administrator);
 
+        emailPwdResetCodeMap.remove(email);
+
     }
 
     @GetMapping("/getList")
@@ -188,7 +190,7 @@ public class AdministratorController {
         administrator.setRealName(administratorCreateInDTO.getRealName());
         administrator.setEmail(administratorCreateInDTO.getEmail());
         administrator.setAvatarUrl(administratorCreateInDTO.getAvatarUrl());
-        administrator.setStatus((byte) AdministratorStatus.Enable.ordinal());
+        administrator.setStatus(administratorCreateInDTO.getStatus());
         administrator.setCreateTime(new Date());
 
         String bcryptHashString = BCrypt.withDefaults().hashToString(12, administratorCreateInDTO.getPassword().toCharArray());

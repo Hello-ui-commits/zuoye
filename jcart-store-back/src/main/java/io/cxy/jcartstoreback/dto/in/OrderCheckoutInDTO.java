@@ -18,7 +18,6 @@ public class OrderCheckoutInDTO {
         this.shipMethod = shipMethod;
     }
 
-
     public Short getPayMethod() {
         return payMethod;
     }
@@ -42,7 +41,6 @@ public class OrderCheckoutInDTO {
     public void setOrderProducts(List<OrderProductInDTO> orderProducts) {
         this.orderProducts = orderProducts;
     }
-
 
     public Integer getShipAddressId() {
         return shipAddressId;

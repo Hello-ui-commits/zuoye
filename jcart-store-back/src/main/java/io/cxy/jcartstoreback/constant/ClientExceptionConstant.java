@@ -26,4 +26,5 @@ public class ClientExceptionConstant {
     public static final String CUSTOMER_NEWPWD_NOT_EXIST_ERRCODE = "0108";
     public static final String CUSTOMER_NEWPWD_NOT_EXIST_ERRMSG = "customer new password not exist";
 
+
 }

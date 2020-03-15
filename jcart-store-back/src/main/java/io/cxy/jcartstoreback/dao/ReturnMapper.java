@@ -2,7 +2,10 @@ package io.cxy.jcartstoreback.dao;
 
 import com.github.pagehelper.Page;
 import io.cxy.jcartstoreback.po.Return;
+import org.apache.ibatis.annotations.Param;
+import org.springframework.stereotype.Repository;
 
+@Repository
 public interface ReturnMapper {
     int deleteByPrimaryKey(Integer returnId);
 
@@ -16,5 +19,8 @@ public interface ReturnMapper {
 
     int updateByPrimaryKey(Return record);
 
-    Page<Return> selectPageByCustomerId(Integer customerId);
+//    custom
+
+    Page<Return> selectPageByCustomerId(@Param("customerId") Integer customerId);
+
 }

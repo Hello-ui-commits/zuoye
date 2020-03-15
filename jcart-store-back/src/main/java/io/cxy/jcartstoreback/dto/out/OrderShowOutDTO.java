@@ -21,7 +21,6 @@ public class OrderShowOutDTO {
     private List<OrderProductVO> orderProducts;
     private List<OrderHistoryListOutDTO> orderHistories;
 
-
     public Long getOrderId() {
         return orderId;
     }
@@ -125,7 +124,6 @@ public class OrderShowOutDTO {
     public void setComment(String comment) {
         this.comment = comment;
     }
-
 
     public List<OrderHistoryListOutDTO> getOrderHistories() {
         return orderHistories;

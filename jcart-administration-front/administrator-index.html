@@ -23,10 +23,10 @@
             </el-table-column>
             <el-table-column label="状态">
                 <template slot-scope="scope">
-                    {{statuse[scope.row.status]}}
+                    {{statuses[scope.row.status]}}
                 </template>
             </el-table-column>
-            <el-table-column prop="createTimestamp" label="创建时间">
+            <el-table-column label="创建时间">
                 <template slot-scope="scope">
                     {{(new Date(scope.row.createTimestamp)).toLocaleString()}}
                 </template>

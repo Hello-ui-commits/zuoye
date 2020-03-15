@@ -1,7 +1,6 @@
 package io.cxy.jcartadministrationback.dao;
 
 import com.github.pagehelper.Page;
-import io.cxy.jcartadministrationback.dto.in.ProductSearchInDTO;
 import io.cxy.jcartadministrationback.dto.out.ProductListOutDTO;
 import io.cxy.jcartadministrationback.po.Product;
 import org.apache.ibatis.annotations.Param;

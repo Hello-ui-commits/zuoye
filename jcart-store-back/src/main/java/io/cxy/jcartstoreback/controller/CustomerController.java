@@ -36,13 +36,13 @@ public class CustomerController {
     @Autowired
     private JavaMailSender mailSender;
 
-    @Value("chenjiefei@xiaofeiinfo.com")
+    @Value("${spring.mail.username}")
     private String fromEmail;
 
     private HashMap<String, String> emailPwdResetCodeMap = new HashMap();
 
     @PostMapping("/register")
-    public Integer register(@RequestBody CustomerRegisterInDTO customerRegisterInDTO) {
+    public Integer register(@RequestBody CustomerRegisterInDTO customerRegisterInDTO){
         Integer customerId = customerService.register(customerRegisterInDTO);
         return customerId;
     }
@@ -50,7 +50,7 @@ public class CustomerController {
     @GetMapping("/login")
     public CustomerLoginOutDTO login(CustomerLoginInDTO customerLoginInDTO) throws ClientException {
         Customer customer = customerService.getByUsername(customerLoginInDTO.getUsername());
-        if (customer == null) {
+        if (customer == null){
             throw new ClientException(ClientExceptionConstant.CUSTOMER_USERNAME_NOT_EXIST_ERRCODE, ClientExceptionConstant.CUSTOMER_USERNAME_NOT_EXIST_ERRMSG);
         }
         String encPwdDB = customer.getEncryptedPassword();
@@ -59,13 +59,13 @@ public class CustomerController {
         if (result.verified) {
             CustomerLoginOutDTO customerLoginOutDTO = jwtUtil.issueToken(customer);
             return customerLoginOutDTO;
-        } else {
+        }else {
             throw new ClientException(ClientExceptionConstant.CUSTOMER_PASSWORD_INVALID_ERRCODE, ClientExceptionConstant.CUSTOMER_PASSWORD_INVALID_ERRMSG);
         }
     }
 
     @GetMapping("/getProfile")
-    public CustomerGetProfileOutDTO getProfile(@RequestAttribute Integer customerId) {
+    public CustomerGetProfileOutDTO getProfile(@RequestAttribute Integer customerId){
         Customer customer = customerService.getById(customerId);
         CustomerGetProfileOutDTO customerGetProfileOutDTO = new CustomerGetProfileOutDTO();
         customerGetProfileOutDTO.setUsername(customer.getUsername());
@@ -80,7 +80,7 @@ public class CustomerController {
 
     @PostMapping("/updateProfile")
     public void updateProfile(@RequestBody CustomerUpdateProfileInDTO customerUpdateProfileInDTO,
-                              @RequestAttribute Integer customerId) {
+                              @RequestAttribute Integer customerId){
         Customer customer = new Customer();
         customer.setCustomerId(customerId);
         customer.setRealName(customerUpdateProfileInDTO.getRealName());
@@ -101,7 +101,7 @@ public class CustomerController {
             String bcryptHashString = BCrypt.withDefaults().hashToString(12, newPwd.toCharArray());
             customer.setEncryptedPassword(bcryptHashString);
             customerService.update(customer);
-        } else {
+        }else {
             throw new ClientException(ClientExceptionConstant.CUSTOMER_PASSWORD_INVALID_ERRCODE, ClientExceptionConstant.CUSTOMER_PASSWORD_INVALID_ERRMSG);
         }
 
@@ -110,7 +110,7 @@ public class CustomerController {
     @GetMapping("/getPwdResetCode")
     public void getPwdResetCode(@RequestParam String email) throws ClientException {
         Customer customer = customerService.getByEmail(email);
-        if (customer == null) {
+        if (customer == null){
             throw new ClientException(ClientExceptionConstant.CUSTOMER_USERNAME_NOT_EXIST_ERRCODE, ClientExceptionConstant.CUSTOMER_USERNAME_NOT_EXIST_ERRMSG);
         }
         byte[] bytes = secureRandom.generateSeed(3);
@@ -118,14 +118,14 @@ public class CustomerController {
         SimpleMailMessage message = new SimpleMailMessage();
         message.setFrom(fromEmail);
         message.setTo(email);
-        message.setSubject("jcart重置密码");
+        message.setSubject("jcart商店端客户重置密码");
         message.setText(hex);
         mailSender.send(message);
-        emailPwdResetCodeMap.put("PwdResetCode" + email, hex);
+        emailPwdResetCodeMap.put(email, hex);
     }
 
     @PostMapping("/resetPwd")
-    public void resetPwd(@RequestBody CustomerResetPwdInDTO customerResetPwdInDTO) throws Exception {
+    public void resetPwd(@RequestBody CustomerResetPwdInDTO customerResetPwdInDTO) throws ClientException {
         String email = customerResetPwdInDTO.getEmail();
         if (email == null) {
             throw new ClientException(ClientExceptionConstant.CUSTOMER_PWDRESET_EMAIL_NONE_ERRCODE, ClientExceptionConstant.CUSTOMER_PWDRESET_EMAIL_NONE_ERRMSG);
@@ -138,16 +138,16 @@ public class CustomerController {
         if (outerResetCode == null) {
             throw new ClientException(ClientExceptionConstant.CUSTOMER_PWDRESET_OUTER_RESETCODE_NONE_ERRCODE, ClientExceptionConstant.CUSTOMER_PWDRESET_OUTER_RESETCODE_NONE_ERRMSG);
         }
-        if (!outerResetCode.equalsIgnoreCase(innerResetCode)) {
+        if (!outerResetCode.equalsIgnoreCase(innerResetCode)){
             throw new ClientException(ClientExceptionConstant.CUSTOMER_PWDRESET_RESETCODE_INVALID_ERRCODE, ClientExceptionConstant.CUSTOMER_PWDRESET_RESETCODE_INVALID_ERRMSG);
         }
         Customer customer = customerService.getByEmail(email);
-        if (customer == null) {
+        if (customer == null){
             throw new ClientException(ClientExceptionConstant.CUSTOMER_EMAIL_NOT_EXIST_ERRCODE, ClientExceptionConstant.CUSTOMER_EMAIL_NOT_EXIST_ERRMSG);
         }
 
         String newPwd = customerResetPwdInDTO.getNewPwd();
-        if (newPwd == null) {
+        if (newPwd == null){
             throw new ClientException(ClientExceptionConstant.CUSTOMER_NEWPWD_NOT_EXIST_ERRCODE, ClientExceptionConstant.CUSTOMER_NEWPWD_NOT_EXIST_ERRMSG);
         }
         String bcryptHashString = BCrypt.withDefaults().hashToString(12, newPwd.toCharArray());
@@ -156,6 +156,7 @@ public class CustomerController {
 
         emailPwdResetCodeMap.remove(email);
     }
+
 
 
 }

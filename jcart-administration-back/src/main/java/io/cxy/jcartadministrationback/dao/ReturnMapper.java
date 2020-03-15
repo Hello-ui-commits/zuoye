@@ -1,10 +1,11 @@
 package io.cxy.jcartadministrationback.dao;
 
 import com.github.pagehelper.Page;
-import io.cxy.jcartadministrationback.dto.in.ReturnSearchInDTO;
 import io.cxy.jcartadministrationback.po.Return;
 import org.apache.ibatis.annotations.Param;
 import org.springframework.stereotype.Repository;
+
+import java.util.Date;
 
 @Repository
 public interface ReturnMapper {
@@ -22,5 +23,13 @@ public interface ReturnMapper {
 
 //    custom
 
-    Page<Return> search(@Param("returnId") Integer returnId, @Param("customerName") String customerName,@Param("orderId")  Long orderId,@Param("productCode")  String productCode,@Param("productName")  String productName,@Param("status")  Byte status);
+    Page<Return> search(@Param("returnId") Integer returnId,
+                        @Param("orderId") Long orderId,
+                        @Param("startTime") Date startTime,
+                        @Param("endTime") Date endTime,
+                        @Param("status") Byte status,
+                        @Param("productCode") String productCode,
+                        @Param("customerName") String customerName,
+                        @Param("productName") String productName);
+
 }

@@ -21,7 +21,7 @@ public class AddressController {
     private AddressService addressService;
 
     @GetMapping("/getCustomerAddress")
-    public List<AddressListOutDTO> getCustomerAddress(@RequestAttribute Integer customerId) {
+    public List<AddressListOutDTO> getCustomerAddress(@RequestAttribute Integer customerId){
         List<Address> addresses = addressService.getByCustomerId(customerId);
 
         List<AddressListOutDTO> addressListOutDTOS = addresses.stream().map(address -> {
@@ -38,7 +38,7 @@ public class AddressController {
     }
 
     @GetMapping("/getById")
-    public AddressShowOutDTO getById(@RequestParam Integer addressId) {
+    public AddressShowOutDTO getById(@RequestParam Integer addressId){
         Address address = addressService.getById(addressId);
         AddressShowOutDTO addressShowOutDTO = new AddressShowOutDTO();
         addressShowOutDTO.setAddressId(address.getAddressId());
@@ -52,7 +52,7 @@ public class AddressController {
 
     @PostMapping("/create")
     public Integer create(@RequestBody AddressCreateInDTO addressCreateInDTO,
-                          @RequestAttribute Integer customerId) {
+                          @RequestAttribute Integer customerId){
         Address address = new Address();
         address.setCustomerId(customerId);
         address.setTag(addressCreateInDTO.getTag());
@@ -66,7 +66,7 @@ public class AddressController {
     }
 
     @PostMapping("/update")
-    public void update(@RequestBody AddressUpdateInDTO addressUpdateInDTO) {
+    public void update(@RequestBody AddressUpdateInDTO addressUpdateInDTO){
         Address address = new Address();
         address.setAddressId(addressUpdateInDTO.getAddressId());
         address.setTag(addressUpdateInDTO.getTag());
@@ -77,7 +77,7 @@ public class AddressController {
     }
 
     @PostMapping("/delete")
-    public void delete(@RequestBody Integer addressId) {
+    public void delete(@RequestBody Integer addressId){
         addressService.delete(addressId);
     }
 

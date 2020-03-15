@@ -4,7 +4,7 @@ var app = new Vue({
         pageInfo: '',
         pageNum: 1,
         selectedAdministrators: [],
-        statuse:['禁用','启用']
+        statuses: ['禁用', '启用']
     },
     computed: {
         selectedAdministratorIds() {

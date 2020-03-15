@@ -19,15 +19,15 @@ public class JWTUtil {
 
     private Logger logger = LoggerFactory.getLogger(this.getClass());
 
-    @Value("36000000")
+    @Value("${jwt.valid.duration}")
     private Long jwtValidDuration;
 
-    @Value("jcart")
+    @Value("${jwt.issuer}")
     private String issuer;
 
     private Algorithm algorithm;
 
-    public JWTUtil(@Value("234567") String jwtHS256Secret) {
+    public JWTUtil(@Value("${jwt.HS256.secret}") String jwtHS256Secret) {
         logger.info("init jwt util");
         algorithm = Algorithm.HMAC256(jwtHS256Secret);
     }

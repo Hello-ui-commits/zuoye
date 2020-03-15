@@ -23,8 +23,8 @@ public interface CustomerMapper {
 
     Page<Customer> search(@Param("username") String username,
                           @Param("realName") String realName,
-                          @Param("email") String email,
                           @Param("mobile") String mobile,
+                          @Param("email") String email,
                           @Param("status") Byte status);
 
 }

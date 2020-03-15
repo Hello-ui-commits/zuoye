@@ -33,6 +33,7 @@ var app = new Vue({
 
         this.getProductById();
 
+
     },
     methods: {
         handleAddToCartClick() {
@@ -43,10 +44,10 @@ var app = new Vue({
 
             var cartProduct = this.myShoppingCart.find(p => p.productId === this.productId);
             if (cartProduct) {
-                console.log(' cart product exist');
-                var originQuantity= parseInt(cartProduct.quantity);
-                var addQuantity=parseInt(this.quantity);
-                cartProduct.quantity =originQuantity+this.quantity;
+                console.log('cart product exist');
+                var originQuantity = parseInt(cartProduct.quantity);
+                var addQuantity = parseInt(this.quantity);
+                cartProduct.quantity = originQuantity + addQuantity;
             } else {
                 cartProduct = {
                     productId: this.productId,
@@ -54,13 +55,14 @@ var app = new Vue({
                     productName: this.productName,
                     mainPicUrl: this.mainPicUrl,
                     unitPrice: this.price,
-                    discount:this.discount,
+                    discount: this.discount,
                     quantity: this.quantity
                 };
                 this.myShoppingCart.push(cartProduct);
             }
+
             localStorage['myShoppingCartJson'] = JSON.stringify(this.myShoppingCart);
-            this.$message.success("加入购物车成功");
+            this.$message.success('添加购物车成功');
         },
         getProductById() {
             axios.get('/product/getById', {
