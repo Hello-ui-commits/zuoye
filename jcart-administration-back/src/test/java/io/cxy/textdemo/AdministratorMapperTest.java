@@ -28,5 +28,5 @@ class AdministratorMapperTest {
         Administrator administrator = administratorMapper.selectByEmail(emali);
         assertNull(administrator);
     }
-    
+
 }
