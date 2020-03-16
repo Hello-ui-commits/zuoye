@@ -22,4 +22,11 @@ class AdministratorMapperTest {
         assertNull(administrator);
     }
 
+    @Test
+    void selectByEmail(){
+        String emali="1875615710@qq.com";
+        Administrator administrator = administratorMapper.selectByEmail(emali);
+        assertNull(administrator);
+    }
+    
 }
