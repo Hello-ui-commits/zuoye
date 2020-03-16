@@ -1,4 +1,4 @@
-package io.cjf.jcartadministrationback;
+package io.cxy.jcartadministrationback;
 
 import org.junit.jupiter.api.Test;
 import org.springframework.boot.test.context.SpringBootTest;
