@@ -1,17 +1,27 @@
 var app = new Vue({
     el: '#app',
     data: {
-        email: ''
+        email: '',
+        loading:false,
+        buttonEnabled:true,
+        counter:60,
     },
     methods: {
         handleFindBackPwdClick() {
             console.log('find back pwd click');
+            this.loading =true;
+            this.buttonEnabled=false;
+            
+            setInterval(function(){
+                console.log('count down');
+                app.counter--;
+            },1000);
             this.getPwdResetCode();
         },
         getPwdResetCode() {
             axios.get('/administrator/getPwdResetCode', {
                 params: {
-                    email: this.email
+                    email: this.email,
                 }
             })
                 .then(function (response) {
