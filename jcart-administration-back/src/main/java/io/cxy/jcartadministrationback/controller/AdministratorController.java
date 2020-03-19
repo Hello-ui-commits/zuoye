@@ -5,15 +5,13 @@ import com.github.pagehelper.Page;
 import io.cxy.jcartadministrationback.constant.ClientExceptionConstant;
 import io.cxy.jcartadministrationback.dto.in.*;
 import io.cxy.jcartadministrationback.dto.out.*;
-import io.cxy.jcartadministrationback.enumeration.AdministratorStatus;
 import io.cxy.jcartadministrationback.exception.ClientException;
 import io.cxy.jcartadministrationback.po.Administrator;
 import io.cxy.jcartadministrationback.service.AdministratorService;
+import io.cxy.jcartadministrationback.util.EmailUtil;
 import io.cxy.jcartadministrationback.util.JWTUtil;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.mail.SimpleMailMessage;
-import org.springframework.mail.javamail.JavaMailSender;
 import org.springframework.web.bind.annotation.*;
 
 import javax.xml.bind.DatatypeConverter;
@@ -39,7 +37,7 @@ public class AdministratorController {
     private SecureRandom secureRandom;
 
     @Autowired
-    private JavaMailSender mailSender;
+    private EmailUtil emailUtil;
 
     @Value("${spring.mail.username}")
     private String fromEmail;
@@ -103,12 +101,7 @@ public class AdministratorController {
         }
         byte[] bytes = secureRandom.generateSeed(3);
         String hex = DatatypeConverter.printHexBinary(bytes);
-        SimpleMailMessage message = new SimpleMailMessage();
-        message.setFrom(fromEmail);
-        message.setTo(email);
-        message.setSubject("jcart管理端管理员密码重置");
-        message.setText(hex);
-        mailSender.send(message);
+        emailUtil.send(fromEmail,email,"jcart管理端管理员密码重置",hex);
         //todo send messasge to MQ
         emailPwdResetCodeMap.put(email, hex);
     }
