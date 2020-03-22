@@ -15,7 +15,9 @@
         <br>
         <el-button type="primary" @click="handleFindBackPwdClick" :disabled="!buttonEnabled">找回密码</el-button>
     </div>
-
+    <div v-show="!buttonEnabled">
+        {{counter}}
+    </div>
     <script src="assets/js/axios.min.js"></script>
     <script src="assets/js/common.js"></script>
     <script src="assets/js/vue.js"></script>
