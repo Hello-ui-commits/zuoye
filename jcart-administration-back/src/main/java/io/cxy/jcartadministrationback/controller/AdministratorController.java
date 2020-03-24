@@ -6,10 +6,12 @@ import io.cxy.jcartadministrationback.constant.ClientExceptionConstant;
 import io.cxy.jcartadministrationback.dto.in.*;
 import io.cxy.jcartadministrationback.dto.out.*;
 import io.cxy.jcartadministrationback.exception.ClientException;
+import io.cxy.jcartadministrationback.mq.EmailEvent;
 import io.cxy.jcartadministrationback.po.Administrator;
 import io.cxy.jcartadministrationback.service.AdministratorService;
 import io.cxy.jcartadministrationback.util.EmailUtil;
 import io.cxy.jcartadministrationback.util.JWTUtil;
+import org.apache.rocketmq.spring.core.RocketMQTemplate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -43,6 +45,9 @@ public class AdministratorController {
 
     @Autowired
     private RedisTemplate<String,String> redisTemplate;
+
+    @Autowired
+    private RocketMQTemplate rocketMQTemplate;
 
     @Value("${spring.mail.username}")
     private String fromEmail;
@@ -106,7 +111,12 @@ public class AdministratorController {
         }
         byte[] bytes = secureRandom.generateSeed(3);
         String hex = DatatypeConverter.printHexBinary(bytes);
-        emailUtil.send(fromEmail,email,"jcart管理端管理员密码重置",hex);
+//        emailUtil.send(fromEmail,email,"jcart管理端管理员密码重置",hex);
+        EmailEvent emailEvent=new EmailEvent();
+        emailEvent.setToEmail(email);
+        emailEvent.setContent(hex);
+        emailEvent.setTitle("jcart管理端管理员密码重置");
+        rocketMQTemplate.convertAndSend("SendPwdRestByEmail",emailEvent);
         //todo send messasge to MQ
         /*emailPwdResetCodeMap.put(email, hex);*/
         redisTemplate.opsForValue().set("EmaliReset"+email,hex, 1L, TimeUnit.MINUTES);
