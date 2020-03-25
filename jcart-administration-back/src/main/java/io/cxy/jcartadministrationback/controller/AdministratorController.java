@@ -118,8 +118,8 @@ public class AdministratorController {
         emailEvent.setTitle("jcart管理端管理员密码重置");
         rocketMQTemplate.convertAndSend("SendPwdRestByEmail",emailEvent);
         //todo send messasge to MQ
-        /*emailPwdResetCodeMap.put(email, hex);*/
-        redisTemplate.opsForValue().set("EmaliReset"+email,hex, 1L, TimeUnit.MINUTES);
+        emailPwdResetCodeMap.put(email, hex);
+        //redisTemplate.opsForValue().set("EmaliReset"+email,hex, 1L, TimeUnit.MINUTES);
     }
 
     @PostMapping("/resetPwd")
